@@ -1,0 +1,20 @@
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QR kód – Na zdraví, Smíchove</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script></head>
+<body style="margin:0;background:#0b2d1d;color:#f3ead3;font:16px/1.5 Figtree,system-ui,sans-serif">
+<div style="max-width:560px;margin:0 auto;padding:32px 20px;display:flex;flex-direction:column;gap:16px">
+<h1 style="margin:0;font-size:28px;font-weight:800">QR kód na AR zážitek</h1>
+<p style="margin:0;opacity:.85">Adresa se doplní sama podle toho, kde stránka běží. Zkontroluj ji, případně uprav, a stáhni PNG pro tisk.</p>
+<input id="u" style="height:52px;border-radius:999px;border:1.5px solid rgba(243,234,211,.7);background:rgba(0,0,0,.2);color:#f3ead3;font:500 16px Figtree,sans-serif;padding:0 18px">
+<div style="background:#fff;border-radius:16px;padding:24px;display:flex;justify-content:center"><canvas id="c" width="1200" height="1200" style="width:100%;max-width:360px;height:auto"></canvas></div>
+<a id="dl" download="qr-na-zdravi.png" style="display:flex;align-items:center;justify-content:center;height:52px;border-radius:999px;background:#f3ead3;color:#0b2d1d;font-weight:700;text-decoration:none">Stáhnout PNG (1200 × 1200 px)</a>
+</div>
+<script>
+const u=document.getElementById('u'), c=document.getElementById('c'), dl=document.getElementById('dl');
+u.value=location.href.replace(/qr\.html.*$/,'');
+function draw(){ const q=qrcode(0,'M'); q.addData(u.value.trim()); q.make(); const n=q.getModuleCount(), m=4, s=Math.floor(1200/(n+m*2)), off=Math.floor((1200-s*n)/2);
+ const g=c.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,1200,1200); g.fillStyle='#0b2d1d';
+ for(let r=0;r<n;r++)for(let k=0;k<n;k++) if(q.isDark(r,k)) g.fillRect(off+k*s,off+r*s,s,s);
+ dl.href=c.toDataURL('image/png'); }
+u.addEventListener('input',draw); draw();
+</script></body></html>
